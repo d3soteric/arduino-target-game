@@ -5,8 +5,10 @@ const int CLK = 6;
 const int DIO = 7;
 TM1637Display display(CLK, DIO);
 
-// Pin definition for the single limit switch
-const int switchPin = 2;  // Using only one switch on pin 2
+// Pin definitions for the three limit switches
+const int switchPin1 = 2;  // First switch on pin 2
+const int switchPin2 = 3;  // Second switch on pin 3
+const int switchPin3 = 4;  // Third switch on pin 4
 
 int score = 0;
 
@@ -15,13 +17,15 @@ void setup() {
   display.setBrightness(0x0F);  // Maximum brightness
   display.showNumberDec(0);     // Initialize display to show '0'
 
-  // Set up the single switch pin with internal pull-up resistor
-  pinMode(switchPin, INPUT_PULLUP);
+  // Set up the switch pins with internal pull-up resistors
+  pinMode(switchPin1, INPUT_PULLUP);
+  pinMode(switchPin2, INPUT_PULLUP);
+  pinMode(switchPin3, INPUT_PULLUP);
 }
 
 void loop() {
-  // Check the single switch with debounce
-  if (isSwitchPressed(switchPin)) {
+  // Check all three switches with debounce
+  if (isSwitchPressed(switchPin1) || isSwitchPressed(switchPin2) || isSwitchPressed(switchPin3)) {
     score++;
     updateDisplay();
     Serial.println("Switch pressed.");  // Debugging output
